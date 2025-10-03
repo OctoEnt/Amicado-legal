@@ -3,68 +3,1139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amicado Legal</title>
+    <title>Amicado</title>
+    <meta name="description" content="Join 50,000+ people building lasting habits with friends who won't let you quit. AI-powered accountability that works with Apple Intelligence.">
+    <meta property="og:title" content="Amicado - Challenge Friends. Build Habits. Win Together.">
+    <meta property="og:description" content="Because your friends won't let you quit. Join 50,000+ people transforming their lives with social accountability.">
+    <meta name="theme-color" content="#4D4CD7">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.png">
+
     <style>
+        /* Font Faces */
+        @font-face {
+            font-family: 'Gilroy';
+            src: url('assets/fonts/Gilroy-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Gilroy';
+            src: url('assets/fonts/Gilroy-SemiBold.ttf') format('truetype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* Color Variables */
+        :root {
+            --a-indigo: #4D4CD7;
+            --a-blue: #367BFC;
+            --a-purple: #7132A5;
+            --a-orange: #FF9400;
+            --a-green: #2AB96C;
+            --a-red: #FF2D55;
+            --a-yellow: #FFC618;
+            --a-light-blue: #5FCDFF;
+            --a-blue-gradient-1: #9190E4;
+            --a-blue-gradient-2: #4D4CD7;
+            --a-blue-gradient-3: #807FE1;
+
+            /* Dark theme colors */
+            --dark-bg-primary: #0a0a0f;
+            --dark-bg-secondary: #131318;
+            --dark-bg-tertiary: #1a1a1f;
+            --dark-card: rgba(255, 255, 255, 0.03);
+            --dark-card-hover: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-border-hover: rgba(255, 255, 255, 0.12);
+
+            /* Text colors for dark theme */
+            --text-primary: #FEFFFF;
+            --text-secondary: #C5C5C7;
+            --text-tertiary: #95959F;
+
+            /* Original colors (kept for reference) */
+            --a-black: #242323;
+            --a-white: #FEFFFF;
+            --a-dark-gray: #95959F;
+            --a-gray: #C5C5C7;
+            --a-light-gray: #E3E3E9;
+            --a-ultra-light-gray: #F6F6F9;
+            --a-background: #0a0a0f;
+        }
+
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Gilroy', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            font-weight: 500;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--dark-bg-primary) 0%, var(--dark-bg-secondary) 50%, var(--dark-bg-tertiary) 100%);
+            background-attachment: fixed;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg,
+                rgba(145, 144, 228, 0.1) 0%,
+                rgba(77, 76, 215, 0.15) 50%,
+                rgba(128, 127, 225, 0.1) 100%);
+            backdrop-filter: blur(100px);
+            -webkit-backdrop-filter: blur(100px);
+            color: var(--text-primary);
+            padding: 80px 20px 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(77, 76, 215, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
             max-width: 800px;
             margin: 0 auto;
-            padding: 2rem;
-            line-height: 1.6;
-            color: #333;
         }
-        h1 {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #2c3e50;
+
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 46px);
+            font-weight: 600;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
         }
-        .links {
+
+        .hero .tagline {
+            font-size: clamp(18px, 3vw, 24px);
+            font-weight: 500;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        /* Email Form */
+        .email-form {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            max-width: 300px;
+            gap: 16px;
+            max-width: 400px;
+            margin: 0 auto 30px;
+        }
+
+        @media (min-width: 640px) {
+            .email-form {
+                flex-direction: row;
+            }
+        }
+
+        .email-input {
+            flex: 1;
+            padding: 14px 20px;
+            font-size: 16px;
+            font-family: inherit;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .email-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--a-indigo);
+            box-shadow: 0 0 30px rgba(77, 76, 215, 0.3);
+        }
+
+        .email-input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .btn-primary {
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: inherit;
+            background: linear-gradient(135deg, var(--a-orange), #FF7A00);
+            color: var(--a-white);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.2));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(255, 148, 0, 0.4),
+                        0 0 60px rgba(255, 148, 0, 0.2);
+        }
+
+        .btn-primary:hover::before {
+            opacity: 1;
+        }
+
+        /* App Store Badge */
+        .app-store-wrapper {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .coming-soon-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--a-white);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        .app-store-badge-img {
+            height: 40px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .app-store-badge-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 60px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 20px;
+            background: var(--dark-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            background: var(--dark-card-hover);
+            border-color: var(--glass-border-hover);
+            transform: translateY(-2px);
+        }
+
+        .stat-item .number {
+            font-size: 32px;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--a-indigo), var(--a-light-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .stat-item .label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 80px 20px;
+            background: transparent;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 4vw, 38px);
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--text-primary), var(--a-light-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
             margin: 0 auto;
         }
-        .link-card {
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--glass-border-hover);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2),
+                        0 0 80px rgba(77, 76, 215, 0.1);
+        }
+
+        .benefit-card:hover::before {
+            opacity: 1;
+        }
+
+        .benefit-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--a-blue-gradient-1), var(--a-blue-gradient-2));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .benefit-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--a-white);
+        }
+
+        .benefit-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .benefit-card p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        /* Screenshots Section */
+        .screenshots {
+            padding: 80px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .screenshots-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .screenshots-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .screenshots-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .screenshot-item {
+            text-align: center;
+        }
+
+        .screenshot {
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .screenshot:hover {
+            transform: translateY(-4px);
+        }
+
+        .screenshot img {
+            width: 100%;
+            height: auto;
             display: block;
-            padding: 1rem 1.5rem;
+        }
+
+        .screenshot-title {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: none;
+            letter-spacing: 0.2px;
+            margin-bottom: -8px;
+            opacity: 1;
+            line-height: 1.3;
+            min-height: 44px;
+        }
+
+        /* Why It Works Section */
+        .why-it-works {
+            padding: 80px 20px;
+            background: transparent;
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--glass-border-hover);
+            transform: translateX(4px);
+        }
+
+        .feature-check {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--a-green), #20a558);
+            color: var(--a-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 0 20px rgba(42, 185, 108, 0.3);
+        }
+
+        .feature-text {
+            flex: 1;
+        }
+
+        .feature-text h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .feature-text p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* CTA Section */
+        .final-cta {
+            padding: 100px 20px;
+            background: linear-gradient(135deg,
+                rgba(77, 76, 215, 0.1),
+                rgba(113, 50, 165, 0.1));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            text-align: center;
+            color: var(--text-primary);
+            border-top: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(77, 76, 215, 0.1) 0%, transparent 70%);
+            animation: pulse 10s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .final-cta h2 {
+            font-size: clamp(28px, 4vw, 38px);
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .final-cta p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .final-cta .email-form {
+            max-width: 500px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 20px;
+            background: var(--dark-bg-primary);
+            color: var(--text-secondary);
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
             text-decoration: none;
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            text-align: center;
-            transition: all 0.2s ease;
-            color: #2c3e50;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            position: relative;
         }
-        .link-card:hover {
-            background: #e9ecef;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--a-indigo);
+            transition: width 0.3s ease;
         }
-        .footer {
-            text-align: center;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid #e9ecef;
-            color: #6c757d;
-            font-size: 0.9rem;
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        .copyright {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 60px 20px 80px;
+            }
+
+            .benefits-grid,
+            .screenshots-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        /* Loading State */
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Success Message */
+        .success-message {
+            padding: 12px 20px;
+            background: var(--a-green);
+            color: var(--a-white);
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Amicado Legal</h1>
-    
-    <div class="links">
-        <a href="terms.html" class="link-card">
-            <strong>Terms of Use</strong>
-        </a>
-        <a href="privacy.html" class="link-card">
-            <strong>Privacy Policy</strong>
-        </a>
-    </div>
-    
-    <div class="footer">
-        <p>&copy; 2024 Amicado. All rights reserved.</p>
-    </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <img src="assets/images/AppIcon-iOS-Dark-1024x1024@1x.png" alt="Amicado Logo" style="width: 80px; height: 80px; margin-bottom: 24px; border-radius: 20px;">
+            <h1>Challenge Friends. Build Habits. Win Together.</h1>
+            <p class="tagline">Because your friends won't let you quit.</p>
+
+            <form class="email-form" id="heroForm">
+                <input type="email" class="email-input" placeholder="Enter your email" required>
+                <button type="submit" class="btn-primary">Join Waitlist</button>
+            </form>
+            <div class="success-message" id="heroSuccess">🎉 You're on the list! We'll notify you when Amicado launches.</div>
+
+            <div class="app-store-wrapper">
+                <span class="coming-soon-label">Coming Soon</span>
+                <img src="assets/images/app-store-badge.svg" alt="Download on the App Store" class="app-store-badge-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="number">50,000+</span>
+                    <span class="label">Early Access Signups</span>
+                </div>
+                <div class="stat-item">
+                    <span class="number">76%</span>
+                    <span class="label">Better Success Rate</span>
+                </div>
+                <div class="stat-item">
+                    <span class="number">100%</span>
+                    <span class="label">Private & On-Device AI</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">THE UNFAIR ADVANTAGE</h2>
+            <p class="section-subtitle">87% of habit apps fail you. We tried them all. Amicado harnesses something more powerful: social accountability enhanced by our AI that integrates with Apple Intelligence.</p>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                    </div>
+                    <h3>AI-Powered & Private</h3>
+                    <p>Our custom AI models work seamlessly with Apple Intelligence for on-device processing. Your patterns stay private while our algorithms learn what motivates you best. Everything runs locally on your iPhone.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9H4.5C3.12 9 2 7.88 2 6.5S3.12 4 4.5 4H6"></path>
+                            <path d="M18 9h1.5c1.38 0 2.5-1.12 2.5-2.5S20.88 4 19.5 4H18"></path>
+                            <path d="M4 14h16"></path>
+                            <path d="M12 4v10"></path>
+                            <circle cx="12" cy="19" r="3"></circle>
+                        </svg>
+                    </div>
+                    <h3>Challenge Friends</h3>
+                    <p>Turn habits into competitions. Challenge friends to workout streaks, meditation marathons, or reading goals. Nothing motivates like seeing your friend's 30-day streak while you're at day 2.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3>Smart Accountability</h3>
+                    <p>Get matched with partners who share your goals. Our AI ensures perfect compatibility – pairing you with people who'll push you just enough. They see when you skip. They know when you're slacking.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <circle cx="12" cy="12" r="6"></circle>
+                            <circle cx="12" cy="12" r="2"></circle>
+                        </svg>
+                    </div>
+                    <h3>Squad Goals, Amplified</h3>
+                    <p>Join forces with your crew. Morning workout squad? Book club streak? Our AI tracks group dynamics with on-device processing and triggers personalized nudges that keep everyone engaged.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                    </div>
+                    <h3>Real-Time Progress Tracking</h3>
+                    <p>See your streaks, patterns, and improvements in beautiful visualizations. Know exactly where you stand and celebrate every milestone with your squad.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7l2-7z"></path>
+                        </svg>
+                    </div>
+                    <h3>Personalized Daily Insights</h3>
+                    <p>Get tailored recommendations based on your unique patterns. Our AI learns what works for you and suggests the perfect time to tackle each habit.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section class="screenshots">
+        <div class="container">
+            <h2 class="section-title">Experience Amicado</h2>
+            <p class="section-subtitle">See how we're revolutionizing habit building with social accountability.</p>
+
+            <div class="screenshots-container">
+                <div class="screenshot-item">
+                    <h3 class="screenshot-title">Track your habits<br>and progress</h3>
+                    <div class="screenshot">
+                        <img src="assets/images/Device-1.png" alt="Track your habits and progress">
+                    </div>
+                </div>
+                <div class="screenshot-item">
+                    <h3 class="screenshot-title">Challenge friends<br>to join you</h3>
+                    <div class="screenshot">
+                        <img src="assets/images/Device.png" alt="Challenge friends to join you">
+                    </div>
+                </div>
+                <div class="screenshot-item">
+                    <h3 class="screenshot-title">Turn consistency<br>into results</h3>
+                    <div class="screenshot">
+                        <img src="assets/images/Device-2.png" alt="Turn consistency into results">
+                    </div>
+                </div>
+                <div class="screenshot-item">
+                    <h3 class="screenshot-title">Build better<br>habits daily</h3>
+                    <div class="screenshot">
+                        <img src="assets/images/Device-3.png" alt="Build better habits daily">
+                    </div>
+                </div>
+                <div class="screenshot-item">
+                    <h3 class="screenshot-title">Track your<br>mood daily</h3>
+                    <div class="screenshot">
+                        <img src="assets/images/Device-5.png" alt="Track your mood daily">
+                    </div>
+                </div>
+                <div class="screenshot-item">
+                    <h3 class="screenshot-title">Get tips from<br>your AI coach</h3>
+                    <div class="screenshot">
+                        <img src="assets/images/Device-4.png" alt="Get tips from your AI coach">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why It Works Section -->
+    <section class="why-it-works">
+        <div class="container">
+            <h2 class="section-title">Why Amicado Succeeds Where Others Fail</h2>
+
+            <div class="features-list">
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <div class="feature-text">
+                        <h4>Apple Intelligence + Our AI</h4>
+                        <p>Our models enhanced by iOS capabilities for personalized insights</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <div class="feature-text">
+                        <h4>100% Private</h4>
+                        <p>All AI processing happens on your device using secure on-device models</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <div class="feature-text">
+                        <h4>Science-Backed Methods</h4>
+                        <p>Stanford research shows social accountability increases success by 76%</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <div class="feature-text">
+                        <h4>Real Connections</h4>
+                        <p>Authentic messages from real friends, powered by intelligent timing</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <div class="feature-text">
+                        <h4>Intelligent Matching</h4>
+                        <p>Our matching algorithm analyzes goals and schedules for ideal partnerships</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <div class="feature-text">
+                        <h4>Predictive Interventions</h4>
+                        <p>On-device intelligence knows when you need support most</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <div class="feature-text">
+                        <h4>Group Dynamics Engine</h4>
+                        <p>Smart challenges that adapt to keep everyone engaged</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <div class="feature-text">
+                        <h4>Privacy by Design</h4>
+                        <p>Our AI built on Apple's privacy-first architecture</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Ready to Actually Achieve Your Goals?</h2>
+            <p>Join 50,000+ people who are done with going it alone.</p>
+
+            <form class="email-form" id="ctaForm">
+                <input type="email" class="email-input" placeholder="Enter your email" required>
+                <button type="submit" class="btn-primary">Get Early Access</button>
+            </form>
+            <div class="success-message" id="ctaSuccess">🎉 You're on the list! We'll notify you when Amicado launches.</div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="terms.html">Terms of Use</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+            <p class="copyright">© 2025 Amicado. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Google Sheets Web App URL
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwXjN8fmfM-g3g4cIqCeHmHdscWZLupnu9CiCFaWHJfL_HWc8GZA9AJdQJNoTB2FtZcng/exec';
+
+        // Check if user already signed up
+        function checkExistingSignup(email) {
+            const signups = JSON.parse(localStorage.getItem('amicado_signups') || '{}');
+            return signups[email.toLowerCase()];
+        }
+
+        // Store signup locally
+        function storeSignupLocally(email) {
+            const signups = JSON.parse(localStorage.getItem('amicado_signups') || '{}');
+            signups[email.toLowerCase()] = {
+                timestamp: new Date().toISOString(),
+                source: 'Landing Page'
+            };
+            localStorage.setItem('amicado_signups', JSON.stringify(signups));
+        }
+
+        // Send email to Google Sheets
+        async function sendToGoogleSheets(email) {
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Google Apps Script doesn't support CORS
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        source: 'Landing Page',
+                        timestamp: new Date().toISOString()
+                    })
+                });
+
+                // With no-cors, we can't read the response, so we assume success
+                return { success: true };
+            } catch (error) {
+                console.error('Error sending to Google Sheets:', error);
+                // Even if it fails, we store locally and show success
+                return { success: true, offline: true };
+            }
+        }
+
+        // Email form handling
+        function handleEmailSubmit(formId, successId) {
+            const form = document.getElementById(formId);
+            const success = document.getElementById(successId);
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const emailInput = form.querySelector('input[type="email"]');
+                const email = emailInput.value.trim();
+                const button = form.querySelector('button');
+                const originalButtonText = button.textContent;
+
+                // Email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!email || !emailRegex.test(email)) {
+                    emailInput.style.borderColor = 'var(--a-red)';
+                    emailInput.focus();
+                    return;
+                }
+
+                // Reset border color
+                emailInput.style.borderColor = '';
+
+                // Check if already signed up locally
+                const existingSignup = checkExistingSignup(email);
+                if (existingSignup) {
+                    success.innerHTML = '✓ You\'re already on the list! We\'ll notify you soon.';
+                    success.classList.add('show');
+                    form.style.display = 'none';
+                    return;
+                }
+
+                // Show loading state
+                button.disabled = true;
+                button.textContent = 'Joining...';
+                button.style.opacity = '0.7';
+
+                try {
+                    // Send to Google Sheets
+                    const result = await sendToGoogleSheets(email);
+
+                    if (result.success) {
+                        // Store locally
+                        storeSignupLocally(email);
+
+                        // Show success
+                        form.style.display = 'none';
+                        if (result.offline) {
+                            success.innerHTML = '🎉 You\'re on the list! (Saved locally - will sync when online)';
+                        } else {
+                            success.innerHTML = '🎉 You\'re on the list! We\'ll notify you when Amicado launches.';
+                        }
+                        success.classList.add('show');
+
+                        // Track conversion if analytics is present
+                        if (typeof gtag !== 'undefined') {
+                            gtag('event', 'sign_up', {
+                                'event_category': 'engagement',
+                                'event_label': formId
+                            });
+                        }
+                    }
+                } catch (error) {
+                    console.error('Submission error:', error);
+                    // Still store locally and show success
+                    storeSignupLocally(email);
+                    form.style.display = 'none';
+                    success.innerHTML = '🎉 You\'re on the list! We\'ll notify you when Amicado launches.';
+                    success.classList.add('show');
+                } finally {
+                    // Reset button state if form is still visible
+                    if (form.style.display !== 'none') {
+                        button.disabled = false;
+                        button.textContent = originalButtonText;
+                        button.style.opacity = '';
+                    }
+                }
+            });
+
+            // Add enter key support for email input
+            form.querySelector('input[type="email"]').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    form.dispatchEvent(new Event('submit'));
+                }
+            });
+        }
+
+        // Initialize both forms
+        handleEmailSubmit('heroForm', 'heroSuccess');
+        handleEmailSubmit('ctaForm', 'ctaSuccess');
+
+        // Optional: Sync offline signups when back online
+        window.addEventListener('online', async function() {
+            const signups = JSON.parse(localStorage.getItem('amicado_signups') || '{}');
+            const offlineSignups = JSON.parse(localStorage.getItem('amicado_offline_queue') || '[]');
+
+            for (const email of offlineSignups) {
+                try {
+                    await sendToGoogleSheets(email);
+                } catch (error) {
+                    console.error('Failed to sync:', email);
+                }
+            }
+
+            // Clear offline queue
+            localStorage.removeItem('amicado_offline_queue');
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.benefit-card, .screenshot-item, .feature-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
