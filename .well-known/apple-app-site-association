@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "MS9CJM85SS.com.amicado.app",
+        "paths": [
+          "/challenge/*",
+          "/invite/*",
+          "/activity/*"
+        ]
+      }
+    ]
+  }
+}

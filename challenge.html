@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Challenge - Amicado</title>
+
+    <!-- Smart App Banner for Safari -->
+    <meta name="apple-itunes-app" content="app-id=6752233517, app-argument=amicado://challenge/CHALLENGE_CODE">
+
+    <meta name="description" content="Join this Amicado challenge and build habits with friends!">
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <style>
+        :root {
+            --a-indigo: #4D4CD7;
+            --dark-bg-primary: #0a0a0f;
+            --dark-bg-secondary: #131318;
+            --text-primary: #FEFFFF;
+            --text-secondary: #C5C5C7;
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg-primary) 0%, var(--dark-bg-secondary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 48px 32px;
+            backdrop-filter: blur(20px);
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            border-radius: 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .challenge-code {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--a-indigo);
+            letter-spacing: 4px;
+            margin: 24px 0;
+            padding: 20px;
+            background: rgba(77, 76, 215, 0.1);
+            border-radius: 16px;
+            border: 2px dashed var(--a-indigo);
+        }
+
+        .status-message {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin: 24px 0;
+            line-height: 1.6;
+        }
+
+        .status-message.success {
+            color: #2AB96C;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            margin: 20px auto;
+            border: 4px solid rgba(77, 76, 215, 0.2);
+            border-top-color: var(--a-indigo);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .app-store-button {
+            display: inline-block;
+            margin-top: 24px;
+        }
+
+        .app-store-button img {
+            height: 50px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .app-store-button img:hover {
+            transform: scale(1.05);
+        }
+
+        .manual-code {
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid var(--glass-border);
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="assets/images/AppIcon-iOS-Dark-1024x1024@1x.png" alt="Amicado Logo" class="logo">
+        <h1>Join the Challenge!</h1>
+
+        <div class="challenge-code" id="challengeCode">LOADING...</div>
+
+        <div id="statusMessage" class="status-message">
+            <div class="spinner"></div>
+            Checking if Amicado is installed...
+        </div>
+
+        <div id="appStoreSection" style="display: none;">
+            <a href="#" id="appStoreLink" class="app-store-button">
+                <img src="assets/images/app-store-badge.svg" alt="Download on the App Store">
+            </a>
+            <div class="manual-code">
+                If the app doesn't open automatically after installation,<br>
+                open Amicado and enter this code manually.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Extract challenge code from URL
+        const pathParts = window.location.pathname.split('/');
+        const challengeCode = pathParts[pathParts.length - 1] || pathParts[pathParts.length - 2];
+
+        // Display the challenge code
+        const challengeCodeElement = document.getElementById('challengeCode');
+        const statusMessageElement = document.getElementById('statusMessage');
+        const appStoreSection = document.getElementById('appStoreSection');
+        const appStoreLink = document.getElementById('appStoreLink');
+
+        if (challengeCode && challengeCode.length === 6) {
+            challengeCodeElement.textContent = challengeCode.toUpperCase();
+
+            // Update smart banner with actual code
+            const smartBanner = document.querySelector('meta[name="apple-itunes-app"]');
+            if (smartBanner) {
+                const content = smartBanner.getAttribute('content');
+                smartBanner.setAttribute('content', content.replace('CHALLENGE_CODE', challengeCode.toUpperCase()));
+            }
+
+            // Try to open the app
+            attemptToOpenApp(challengeCode.toUpperCase());
+        } else {
+            statusMessageElement.innerHTML = '❌ Invalid challenge code';
+            challengeCodeElement.textContent = 'ERROR';
+        }
+
+        function attemptToOpenApp(code) {
+            let appOpened = false;
+
+            // Try to open app via custom URL scheme
+            const deepLinkURL = `amicado://challenge/${code}`;
+            const universalLinkURL = `https://amicado.app/challenge/${code}`;
+
+            // First try universal link (works if app is installed)
+            window.location.href = universalLinkURL;
+
+            // Detect if we're still on the page after 2.5 seconds
+            // If we are, the app is not installed
+            setTimeout(() => {
+                if (!appOpened) {
+                    handleAppNotInstalled(code);
+                }
+            }, 2500);
+
+            // Listen for page visibility to detect if app opened
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    appOpened = true;
+                }
+            });
+
+            // Also detect if window loses focus (app opened)
+            window.addEventListener('blur', () => {
+                appOpened = true;
+            });
+        }
+
+        async function handleAppNotInstalled(code) {
+            statusMessageElement.innerHTML = '📋 Link copied to clipboard!';
+            statusMessageElement.classList.add('success');
+
+            const deepLinkURL = `amicado://challenge/${code}`;
+
+            try {
+                await navigator.clipboard.writeText(deepLinkURL);
+                console.log('Challenge deep link copied to clipboard:', deepLinkURL);
+            } catch (err) {
+                console.error('Failed to copy to clipboard:', err);
+                const textArea = document.createElement('textarea');
+                textArea.value = deepLinkURL;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    console.log('Challenge deep link copied via fallback method');
+                } catch (fallbackErr) {
+                    console.error('Fallback copy failed:', fallbackErr);
+                    statusMessageElement.innerHTML = '⚠️ Please copy the code manually';
+                    statusMessageElement.classList.remove('success');
+                }
+                document.body.removeChild(textArea);
+            }
+
+            // Show App Store button
+            appStoreSection.style.display = 'block';
+
+            const appStoreURL = 'https://apps.apple.com/app/id6752233517';
+            appStoreLink.href = appStoreURL;
+
+            setTimeout(() => {
+                statusMessageElement.innerHTML = '🚀 Redirecting to App Store...<br><small>The link has been saved. Open the app after installing!</small>';
+                setTimeout(() => {
+                    window.location.href = appStoreURL;
+                }, 1500);
+            }, 2000);
+        }
+
+        // Store the challenge code in localStorage as backup
+        if (challengeCode && challengeCode.length === 6) {
+            localStorage.setItem('amicado_pending_challenge', challengeCode.toUpperCase());
+            localStorage.setItem('amicado_pending_challenge_timestamp', new Date().toISOString());
+        }
+    </script>
+</body>
+</html>
