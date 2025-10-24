@@ -48,25 +48,72 @@
         const challengeMatch = path.match(/\/challenge\/([A-Z0-9]{6})/i);
         const inviteMatch = path.match(/\/invite\/([A-Z0-9]{6})/i);
 
-        async function handleDeepLink(code) {
-            const deepLinkURL = `amicado://challenge/${code.toUpperCase()}`;
+        const APP_STORE_URL = 'https://apps.apple.com/app/id6752233517';
+        const OPEN_DELAY_MS = 120;
+        const FALLBACK_DELAY_MS = 1600;
 
+        async function copyText(text) {
             try {
-                await navigator.clipboard.writeText(deepLinkURL);
-                console.log('Challenge link copied to clipboard:', deepLinkURL);
+                await navigator.clipboard.writeText(text);
             } catch (err) {
-                console.error('Failed to copy to clipboard:', err);
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.setAttribute('readonly', '');
+                textarea.style.position = 'absolute';
+                textarea.style.left = '-9999px';
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                } catch (_) {
+                    // ignore: clipboard fallback failed
+                }
+                document.body.removeChild(textarea);
             }
+        }
+
+        function openDeepLink(deepLinkURL) {
+            let fallbackTimer;
+
+            const cancelFallback = () => {
+                clearTimeout(fallbackTimer);
+                document.removeEventListener('visibilitychange', handleVisibilityChange);
+                window.removeEventListener('pagehide', cancelFallback);
+            };
+
+            const handleVisibilityChange = () => {
+                if (document.visibilityState === 'hidden') {
+                    cancelFallback();
+                }
+            };
+
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+            window.addEventListener('pagehide', cancelFallback);
+
+            fallbackTimer = setTimeout(() => {
+                if (document.visibilityState === 'visible' && !document.hidden) {
+                    cancelFallback();
+                    window.location.href = APP_STORE_URL;
+                }
+            }, FALLBACK_DELAY_MS);
 
             setTimeout(() => {
-                window.location.href = 'https://apps.apple.com/app/id6752233517';
-            }, 100);
+                window.location.href = deepLinkURL;
+            }, OPEN_DELAY_MS);
+        }
+
+        function handleDeepLink(type, code) {
+            const uppercaseCode = code.toUpperCase();
+            const deepLinkURL = `amicado://${type}/${uppercaseCode}`;
+
+            copyText(uppercaseCode);
+            openDeepLink(deepLinkURL);
         }
 
         if (challengeMatch) {
-            handleDeepLink(challengeMatch[1]);
+            handleDeepLink('challenge', challengeMatch[1]);
         } else if (inviteMatch) {
-            handleDeepLink(inviteMatch[1]);
+            handleDeepLink('invite', inviteMatch[1]);
         } else {
             window.location.href = '/';
         }
